@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Particle Heart Animation</title>
+    <style>
+        body {
+            margin: 0;
+            overflow: hidden;
+            background-color: #000;
+        }
+
+        .particle {
+            position: absolute;
+            border-radius: 50%;
+            background: #FF0058;
+            animation: float 3s infinite;
+        }
+
+        @keyframes float {
+            0% {
+                transform: translateY(0);
+            }
+            50% {
+                transform: translateY(-30px);
+            }
+            100% {
+                transform: translateY(0);
+            }
+        }
+    </style>
+</head>
+<body>
+<script>
+    const particlesCount = 100;
+    const particles = [];
+
+    // Create particles
+    for (let i = 0; i < particlesCount; i++) {
+        const particle = document.createElement('div');
+        particle.classList.add('particle');
+        const size = Math.random() * 15 + 5;
+        particle.style.width = size + 'px';
+        particle.style.height = size + 'px';
+        particle.style.left = Math.random() * window.innerWidth + 'px';
+        particle.style.top = Math.random() * window.innerHeight + 'px';
+        particle.style.opacity = Math.random();
+        document.body.appendChild(particle);
+        particles.push(particle);
+    }
+
+    // Animating particles
+    function animateParticles() {
+        particles.forEach(particle => {
+            const xMovement = Math.random() * 2 - 1;
+            const yMovement = Math.random() * 2 - 1;
+            const newLeft = parseFloat(particle.style.left) + xMovement;
+            const newTop = parseFloat(particle.style.top) + yMovement;
+
+            // Keep particles within the window
+            if (newLeft > window.innerWidth) particle.style.left = 0 + 'px';
+            else if (newLeft < 0) particle.style.left = window.innerWidth + 'px';
+            else particle.style.left = newLeft + 'px';
+
+            if (newTop > window.innerHeight) particle.style.top = 0 + 'px';
+            else if (newTop < 0) particle.style.top = window.innerHeight + 'px';
+            else particle.style.top = newTop + 'px';
+        });
+    }
+
+    setInterval(animateParticles, 100);
+</script>
+</body>
+</html>
